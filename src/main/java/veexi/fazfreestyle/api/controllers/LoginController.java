@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import veexi.fazfreestyle.api.dto.UsuarioDTO;
 import veexi.fazfreestyle.api.entities.Usuario;
+import veexi.fazfreestyle.api.security.JwtSecurity;
 import veexi.fazfreestyle.api.services.UsuarioService;
 
 @RestController
@@ -21,11 +23,17 @@ public class LoginController {
 	@Autowired
 	private UsuarioService usuarioService;
 
+	@Autowired
+	private JwtSecurity JwtSecurity;
+
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Usuario usuario) {
 		try {
 			Usuario usuarioAutenticado = usuarioService.autenticar(usuario.getUsername(), usuario.getPassword());
-			return ResponseEntity.ok(usuarioAutenticado);
+			String token = JwtSecurity.gerarToken(usuario.getUsername());
+			UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioAutenticado, token);
+
+			return ResponseEntity.ok(usuarioDTO);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

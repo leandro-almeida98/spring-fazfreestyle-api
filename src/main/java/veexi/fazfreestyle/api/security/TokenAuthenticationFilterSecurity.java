@@ -29,10 +29,16 @@ public class TokenAuthenticationFilterSecurity extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		String token = getTokenFromRequest(request);
+		String path = request.getRequestURI().substring(request.getContextPath().length());
 
+		if (path.startsWith("/api/login") || path.startsWith("/error") || path.startsWith("/api/logout")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		String token = getTokenFromRequest(request);
 		try {
-			if (token != null && JwtUtil.validarToken(token)) {
+			if (JwtUtil.validarToken(token)) {
 				Authentication authentication = new UsernamePasswordAuthenticationToken(token, null,
 						Collections.emptyList());
 				SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,8 +62,6 @@ public class TokenAuthenticationFilterSecurity extends OncePerRequestFilter {
 	private String getTokenFromRequest(HttpServletRequest request) {
 		// Extrai o token da solicitação
 		String header = request.getHeader("Authorization");
-		System.out.println("PASSOU PELO getTokenFromRequest");
-
 		if (header != null && header.startsWith("Bearer ")) {
 			return header.substring(7); // Remove o prefixo "Bearer " e retorna o token restante
 		}

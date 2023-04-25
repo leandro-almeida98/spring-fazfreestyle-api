@@ -3,7 +3,6 @@ package veexi.fazfreestyle.api.security;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -14,7 +13,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import veexi.fazfreestyle.api.exceptions.handle.ForbiddenException;
 
 @Component
-@PropertySource("classpath:config.properties")
 public class JwtSecurity {
 
 	@Value("${jwt_chave_secreta}")
@@ -36,7 +34,10 @@ public class JwtSecurity {
 			if (token == null) {
 				throw new ForbiddenException("Token nulo");
 			}
+			System.out.println("isTokenValid -> " + token);
+
 			Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+
 			return true;
 		} catch (ExpiredJwtException ex) {
 			throw new ForbiddenException("Token expirado");
@@ -45,6 +46,7 @@ public class JwtSecurity {
 		} catch (NullPointerException ex) {
 			throw new ForbiddenException("Token nulo");
 		}
+
 	}
 
 	public Claims obterClaimsDoToken(String token) {

@@ -21,9 +21,8 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http.csrf().disable();
-		http.authorizeHttpRequests().requestMatchers("/public").permitAll().requestMatchers("/api/login").permitAll()
-				.requestMatchers("/api/logout").permitAll().requestMatchers("/api/error").permitAll()
-				.requestMatchers("/error").permitAll().anyRequest().authenticated().and()
+		http.authorizeHttpRequests().requestMatchers("/api/login/**", "/error", "/api/logout").permitAll().anyRequest()
+				.authenticated().and()
 				.addFilterBefore(tokenAuthenticationFilterSecurity, BasicAuthenticationFilter.class);
 		return http.build();
 	}
