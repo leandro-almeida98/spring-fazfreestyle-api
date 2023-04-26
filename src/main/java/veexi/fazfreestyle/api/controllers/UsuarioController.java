@@ -21,7 +21,7 @@ import veexi.fazfreestyle.api.entities.Usuario;
 import veexi.fazfreestyle.api.services.UsuarioService;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
 	@Autowired

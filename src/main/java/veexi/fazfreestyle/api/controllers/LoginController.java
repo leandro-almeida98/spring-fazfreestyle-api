@@ -17,7 +17,7 @@ import veexi.fazfreestyle.api.security.JwtSecurity;
 import veexi.fazfreestyle.api.services.UsuarioService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class LoginController {
 
 	@Autowired

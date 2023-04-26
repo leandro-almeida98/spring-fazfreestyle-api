@@ -29,16 +29,9 @@ public class TokenAuthenticationFilterSecurity extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		String path = request.getRequestURI().substring(request.getContextPath().length());
-
-		if (path.startsWith("/api/login") || path.startsWith("/error") || path.startsWith("/api/logout")) {
-			filterChain.doFilter(request, response);
-			return;
-		}
-
 		String token = getTokenFromRequest(request);
 		try {
-			if (JwtUtil.validarToken(token)) {
+			if (token != null && JwtUtil.validarToken(token)) {
 				Authentication authentication = new UsernamePasswordAuthenticationToken(token, null,
 						Collections.emptyList());
 				SecurityContextHolder.getContext().setAuthentication(authentication);
