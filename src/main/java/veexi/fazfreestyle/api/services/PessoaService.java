@@ -36,8 +36,8 @@ public class PessoaService {
 		return pessoaRepository.findByNome(nome);
 	}
 
-	public List<Pessoa> findBySobrenome(String sobrenome) {
-		return pessoaRepository.findBySobrenome(sobrenome);
+	public List<Pessoa> findBySobrenome(String sobreNome) {
+		return pessoaRepository.findBySobreNome(sobreNome);
 	}
 
 	public List<Pessoa> findByEmail(String email) {
@@ -59,10 +59,9 @@ public class PessoaService {
 	public Pessoa updatePessoa(Long id, Pessoa pessoa) {
 		Pessoa pessoaToUpdate = getPessoaById(id);
 		pessoaToUpdate.setNome(pessoa.getNome());
-		pessoaToUpdate.setSobrenome(pessoa.getSobrenome());
+		pessoaToUpdate.setSobreNome(pessoa.getSobreNome());
 		pessoaToUpdate.setEmail(pessoa.getEmail());
 		pessoaToUpdate.setTelefone(pessoa.getTelefone());
-		pessoaToUpdate.setEndereco(pessoa.getEndereco());
 		return pessoaRepository.save(pessoaToUpdate);
 	}
 

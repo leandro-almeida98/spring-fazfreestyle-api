@@ -1,143 +1,82 @@
 package veexi.fazfreestyle.api.entities;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "PESSOA")
-public class Pessoa {
+@Table(name = "pessoa")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Pessoa implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "id")
+	private int id;
 
-	@Column(name = "nome", nullable = false, length = 100)
+	@Column(name = "nome")
 	private String nome;
 
-	@Column(name = "sobrenome", nullable = false, length = 100)
-	private String sobrenome;
+	@Column(name = "sobre_nome")
+	private String sobreNome;
 
-	@Column(name = "email", nullable = false, length = 100, unique = true)
+	@Column(name = "email")
 	private String email;
 
-	@Column(name = "telefone", length = 20)
-	private String telefone;
+	@Column(name = "image")
+	private String image;
 
-	@Column(name = "endereco", length = 200)
-	private String endereco;
+	@Column(name = "mc")
+	private boolean mc;
 
-	public Long getId() {
-		return id;
-	}
+	@Column(name = "vulgo")
+	private String vulgo;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@Column(name = "instagram")
+	private String instagram;
 
-	public String getNome() {
-		return nome;
-	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cidade_id", referencedColumnName = "id")
+	private Cidade cidade;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cidade_estado_id", referencedColumnName = "id")
+	private Estado estado;
 
-	public String getSobrenome() {
-		return sobrenome;
-	}
+	@Column(name = "youtube")
+	private String youtube;
 
-	public void setSobrenome(String sobrenome) {
-		this.sobrenome = sobrenome;
-	}
+	@Column(name = "biografia")
+	private String biografia;
 
-	public String getEmail() {
-		return email;
-	}
+	@Column(name = "telefone")
+	private Integer telefone;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	@Column(name = "data_cadastro")
+	private LocalDateTime dataCadastro;
 
-	public String getTelefone() {
-		return telefone;
-	}
+	@Column(name = "data_nascimento")
+	private LocalDate dataNascimento;
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
-		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pessoa other = (Pessoa) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (endereco == null) {
-			if (other.endereco != null)
-				return false;
-		} else if (!endereco.equals(other.endereco))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (sobrenome == null) {
-			if (other.sobrenome != null)
-				return false;
-		} else if (!sobrenome.equals(other.sobrenome))
-			return false;
-		if (telefone == null) {
-			if (other.telefone != null)
-				return false;
-		} else if (!telefone.equals(other.telefone))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email + ", telefone="
-				+ telefone + ", endereco=" + endereco + "]";
-	}
-
-	// construtores, getters e setters
-
+	// getters e setters
 }

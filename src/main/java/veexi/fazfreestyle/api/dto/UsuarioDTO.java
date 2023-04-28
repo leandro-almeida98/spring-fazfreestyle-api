@@ -1,42 +1,22 @@
 package veexi.fazfreestyle.api.dto;
 
-import veexi.fazfreestyle.api.entities.Pessoa;
-import veexi.fazfreestyle.api.entities.Usuario;
+import java.io.Serializable;
 
-public class UsuarioDTO {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import veexi.fazfreestyle.api.entities.Pessoa;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UsuarioDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Pessoa pessoa;
 	private String token;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public UsuarioDTO(Usuario Usuario, String token) {
-		super();
-		this.id = Usuario.getId();
-		this.pessoa = Usuario.getPessoa();
-		this.token = token;
-	}
 
 }

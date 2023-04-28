@@ -34,7 +34,7 @@ public class UsuarioService {
 	// Cria um novo usuário
 	public Usuario createUsuario(Usuario usuario) {
 		// Criptografa a senha
-		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		return usuarioRepository.save(usuario);
 	}
 
@@ -42,7 +42,7 @@ public class UsuarioService {
 	public Usuario updateUsuario(Long id, Usuario usuario) {
 		Usuario usuarioExistente = usuarioRepository.findById(id).orElse(null);
 		if (usuarioExistente != null) {
-			usuarioExistente.setUsername(usuario.getUsername());
+			usuarioExistente.setNomeUsuario(usuario.getNomeUsuario());
 			usuarioExistente.setAtivo(usuario.getAtivo());
 			usuarioExistente.setPessoa(usuario.getPessoa());
 			// Atualize outros campos de acordo com suas necessidades
@@ -73,7 +73,7 @@ public class UsuarioService {
 	}
 
 	public Usuario autenticar(String username, String password) {
-		Usuario usuario = usuarioRepository.findByUsername(username);
+		Usuario usuario = usuarioRepository.findByNomeUsuario(username);
 
 		String senhaCriptografada = passwordEncoder.encode(password);
 		System.out.println("SENHA CRIPTOGRAFADA -> " + senhaCriptografada);
@@ -87,7 +87,7 @@ public class UsuarioService {
 		}
 
 		// Verifica a senha criptografada
-		if (!passwordEncoder.matches(password, usuario.getPassword())) {
+		if (!passwordEncoder.matches(password, usuario.getSenha())) {
 			throw new SenhaInvalidaException("Senha inválida");
 		}
 

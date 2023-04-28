@@ -10,7 +10,7 @@ import veexi.fazfreestyle.api.entities.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	Usuario findByUsername(String username);
+	Usuario findByNomeUsuario(String nomeUsuario);
 
 	List<Usuario> findByPessoaEmailContainingIgnoreCase(String email);
 

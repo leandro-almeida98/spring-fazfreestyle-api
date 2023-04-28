@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import veexi.fazfreestyle.api.dto.LoginDTO;
 import veexi.fazfreestyle.api.dto.UsuarioDTO;
 import veexi.fazfreestyle.api.entities.Usuario;
 import veexi.fazfreestyle.api.security.JwtSecurity;
@@ -27,11 +28,20 @@ public class LoginController {
 	private JwtSecurity JwtSecurity;
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+	public ResponseEntity<?> login(@RequestBody LoginDTO login) {
+		System.out.println("LOGIN ->" + login.toString());
 		try {
-			Usuario usuarioAutenticado = usuarioService.autenticar(usuario.getUsername(), usuario.getPassword());
-			String token = JwtSecurity.gerarToken(usuario.getUsername());
-			UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioAutenticado, token);
+
+			Usuario usuarioAutenticado = usuarioService.autenticar(login.getUsername(), login.getPassword());
+			String token = JwtSecurity.gerarToken(login.getUsername());
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+			System.out.println("PESSOA -> " + usuarioAutenticado.getPessoa());
+
+			usuarioDTO.setId(usuarioAutenticado.getId());
+			usuarioDTO.setToken(token);
+
+			usuarioDTO.setPessoa(usuarioAutenticado.getPessoa());
 
 			return ResponseEntity.ok(usuarioDTO);
 		} catch (Exception e) {

@@ -12,7 +12,7 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
 	List<Pessoa> findByNome(String nome);
 
-	List<Pessoa> findBySobrenome(String sobrenome);
+	List<Pessoa> findBySobreNome(String sobreNome);
 
 	List<Pessoa> findByEmail(String email);
 
